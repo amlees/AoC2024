@@ -34,3 +34,16 @@ for substring_match in substring_match_list:
         result += int(substring_match[1][0]) * int(substring_match[1][1])
 
 print(f"Part Two Answer: {result}")
+
+# Better Part Two Answer
+good_data = ""
+for do_substring in data.split("do()"):
+    good_data += do_substring.split("don't()")[0]
+
+substring_list = re.findall("mul\(\d+,\d+\)", good_data)
+result = 0
+for substring in substring_list:
+    x, y = substring[4:-1].split(",")
+    result += int(x) * int(y)
+
+print(f"Part Two Answer: {result}")
