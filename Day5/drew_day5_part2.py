@@ -38,20 +38,16 @@ with open("day5_input.txt", "r") as f:
 					if book[y] in rulesDict[currVal]:
 						book[x] = book[y]
 						book[y] = currVal
-						#after our swap, move back to the start of the list as we may have invalidated other rules
-						x = 0
-						dontIncrement = True
+						#Thanks to alex cleaned up this code a lot. We don't need to restart the loop from the beginning.
+						#Just make sure we set our currVal to the value we just swapped into its place and continue checking the rules
+						currVal = book[x]
 						badBook = True
-						break
 					y += 1
-				#Probably a better way to do this but when we set x to 0 to be at the beginning it was getting set to 1 immediately. don't do that.
-				if dontIncrement == True:
-					dontIncrement = False
-				else:
-					x += 1
+				x += 1
 
 			if badBook:
 				badBooks.append(book)
 for book in badBooks:
 	middleIndex = math.ceil(len(book)/2)
 	total += book[middleIndex-1]
+print(total)
