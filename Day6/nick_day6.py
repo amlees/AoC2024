@@ -53,30 +53,19 @@ print(f"Part One Answer: {np.sum(map_array == 2)}")
 def test_map(map_array, start_position, start_direction) -> bool:
     is_loop = False
 
-    # for start_direction, position_offset in direction_dict.items():
-        # start_position = tuple([x - y for x, y in zip(test_index, position_offset)])
-        # if any([x <= 0 or x > y for x, y in zip(start_position, (map_array.shape))]):
-            # print(f"Bad Start")
-            # continue
     position = deepcopy(start_position)
     direction = deepcopy(start_direction)
     
-    # print(f"Start Position {start_position} Start Direction {direction}")
     history = defaultdict(int)
     while True:
         position = tuple([x + y for x, y in zip(position, direction_dict[direction])])
-        # print(f"Position {position}\tDirection {direction} - STEP")
-
         if any([x < 0 or x >= y for x, y in zip(position, (map_array.shape))]):
-            # print(f"Guard Exit! Position {position} Direction {direction}")
             break # guard has exited the map
         if map_array[position] == 1:
             # Blocked - reverse position and change direction
-            # print(f"Position {position}\tDirection {direction} - TURN")
             history[f"{int(position[0]),int(position[1]),direction}"] += 1
             if history[f"{int(position[0]),int(position[1]),direction}"] > 1:
                 is_loop = True
-                print(f"Found Loop! Position {position} Direction {direction}")
                 break
             else:
                 position = tuple([x - y for x, y in zip(position, direction_dict[direction])])
@@ -91,8 +80,6 @@ direction = deepcopy(start_direction)
 
 ind = []
 for row_ind, col_ind in zip(possible_positions[0], possible_positions[1]):
-    # row_ind = 9
-    # col_ind = 46
     print(f"Test {row_ind}, {col_ind}")
     map_array[row_ind, col_ind] = 1
     is_loop = test_map(map_array, position, direction)
@@ -100,3 +87,5 @@ for row_ind, col_ind in zip(possible_positions[0], possible_positions[1]):
         ind.append((row_ind, col_ind))
         print(ind)
     map_array[row_ind, col_ind] = 0
+
+print(f"Part Two Answer: {len(ind)}")
